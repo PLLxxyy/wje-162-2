@@ -969,6 +969,58 @@
     .empty-state p {
       font-size: 14px;
     }
+
+    /* ===== Monthly weight list ===== */
+    .monthly-weight-list {
+      margin-top: 20px;
+    }
+
+    .weight-list-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .weight-list-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+    }
+
+    .weight-list-cat {
+      width: 100px;
+      font-size: 13px;
+      color: #555;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .weight-list-bar-wrap {
+      flex: 1;
+      height: 14px;
+      background: #f0f0f0;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .weight-list-bar {
+      height: 100%;
+      border-radius: 7px;
+      transition: width 0.4s ease;
+      min-width: 2%;
+    }
+
+    .weight-list-value {
+      width: 72px;
+      text-align: right;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>

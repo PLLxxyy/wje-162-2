@@ -62,6 +62,14 @@ export default function CalendarPage() {
 
   const getCatInfo = (category: string) => CATEGORY_MAP[category] || { name: '', icon: '', color: '#888' };
 
+  const checkinCount = records.length;
+  const totalPoints = records.reduce((sum, r) => sum + (r.points || 0), 0);
+  const weightByCategory: Record<string, number> = {};
+  records.forEach((r) => {
+    const cat = r.category || 'other';
+    weightByCategory[cat] = (weightByCategory[cat] || 0) + (r.weight || 0);
+  });
+
   return (
     <div>
       <div className="card">
@@ -110,6 +118,56 @@ export default function CalendarPage() {
               );
             })}
           </div>
+        )}
+      </div>
+
+      {/* 月度统计 */}
+      <div className="card">
+        <div className="card-title">📊 {month}月统计</div>
+        {checkinCount === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">📭</div>
+            <p>本月暂无打卡记录</p>
+          </div>
+        ) : (
+          <>
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-icon">✅</div>
+                <div className="stat-value">{checkinCount}</div>
+                <div className="stat-label">打卡次数</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">⭐</div>
+                <div className="stat-value">{totalPoints}</div>
+                <div className="stat-label">累计积分</div>
+              </div>
+            </div>
+            <div className="monthly-weight-list">
+              <div className="weight-list-title">各类投放重量</div>
+              {Object.entries(CATEGORY_MAP).map(([key, val]) => {
+                const w = weightByCategory[key] || 0;
+                return (
+                  <div key={key} className="weight-list-row">
+                    <span className="weight-list-cat">
+                      <span style={{ marginRight: 6 }}>{val.icon}</span>
+                      <span>{val.name}</span>
+                    </span>
+                    <div className="weight-list-bar-wrap">
+                      <div
+                        className="weight-list-bar"
+                        style={{
+                          width: `${Math.max(2, (w / Math.max(...Object.values(weightByCategory), 1)) * 100)}%`,
+                          background: val.color,
+                        }}
+                      />
+                    </div>
+                    <span className="weight-list-value">{w.toFixed(1)} kg</span>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
 
